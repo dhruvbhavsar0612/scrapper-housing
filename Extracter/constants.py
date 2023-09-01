@@ -1,0 +1,1 @@
+BASE_URL = "https://pay2igr.igrmaharashtra.gov.in/eDisplay/propertydetails"
