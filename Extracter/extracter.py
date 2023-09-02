@@ -15,11 +15,14 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 class InputFields(webdriver.Chrome):
+
     def __init__(self, driver_path="G:/SeleniumDrivers" ,teardown=False):
         self.driver_path = driver_path
         self.teardown = teardown #prevents webpage from closing immediately
         os.environ['PATH'] += self.driver_path #sets driver path in os environments
-        super(InputFields,self).__init__()
+        options = webdriver.ChromeOptions()
+        options.add_extension('C:/Users/Admin/AppData/Local/Google/Chrome/User Data/Default/Extensions/aapbdbdomjkkjkaonfhkkikfgjllcleb/2.0.13_0.crx')
+        super(InputFields,self).__init__(options=options)
         self.maximize_window()
     
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -71,6 +74,9 @@ class InputFields(webdriver.Chrome):
         select = Select(select_element)
         select.select_by_value(rows)
 
+        # wait for extension to translate the data
+        time.sleep(20)
+
     def save_table(self, name='data'):
         table = self.find_element(By.ID,'tableparty')
 
@@ -82,6 +88,7 @@ class InputFields(webdriver.Chrome):
         for th in soup.find_all('th'):
             table_headers.append(th.text)
 
+        table_headers.append('link')
         table_rows=[]
         for row in soup.find_all('tr'):
             columns= row.find_all('td')
@@ -89,8 +96,12 @@ class InputFields(webdriver.Chrome):
 
             for col in columns:
                 output_data.append(col.text)
-
+            
+            for a in row.find_all('a',href=True):
+                output_data.append(const.BASE_URL+''+a['href'])
+                
             table_rows.append(output_data)
         
-        df = pd.DataFrame(table_rows, columns=table_headers)
+        df = pd.DataFrame(table_rows,columns=table_headers)
         df.to_csv(name+'.csv')
+        return df
