@@ -75,9 +75,9 @@ class InputFields(webdriver.Chrome):
         select.select_by_value(rows)
 
         # wait for extension to translate the data
-        time.sleep(20)
+        time.sleep(25)
 
-    def save_table(self, name='data'):
+    def save_table(self, name='data',count=1):
         table = self.find_element(By.ID,'tableparty')
         
         # INITIALIZING data cleaning pipeline
@@ -113,9 +113,15 @@ class InputFields(webdriver.Chrome):
         
         df = pd.DataFrame(table_rows,columns=table_headers)
 
+        # handling any error in the pipeline
         try:
             cleaned_df = data_cleaning_pipeline.fit_transform(df)
         except Exception as e:
             print(f"Pipeline error: {str(e)}")
 
-        cleaned_df.to_csv('cleaned.csv',index=False)
+        cleaned_df.to_csv(f'cleaned_{count}.csv',index=False)
+    
+    def next_page(self):
+        next_page = self.find_element(By.CSS_SELECTOR, 'a[data-dt-idx="8"]')
+        next_page.click()    
+        time.sleep(20)        

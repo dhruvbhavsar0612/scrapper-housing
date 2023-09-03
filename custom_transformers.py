@@ -21,12 +21,15 @@ class ReplaceNames(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         X_renamed = X.rename(columns = {
-                X.columns[0]:'Sr No',
-                X.columns[1]:'Document No',
-                X.columns[2]:'Document Type',
-                X.columns[3]:'D.N. Office',
-                X.columns[5]:'Buyer Name',
-                X.columns[6]:'Seller Name',
+                X.columns[0]:'sr_no',
+                X.columns[1]:'doc_no',
+                X.columns[2]:'doc_type',
+                X.columns[3]:'dn_office',
+                X.columns[4]:'doc_date',
+                X.columns[5]:'buyer_name',
+                X.columns[6]:'seller_name',
+                X.columns[7]:'other_info',
+                X.columns[8]:'list_no_2'
             }
         )
         return X_renamed
@@ -37,7 +40,7 @@ class DateFormat(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         try:
-            X['Year'] = pd.to_datetime(X['Year'], format='%d/%m/%Y')
+            X['doc_date'] = pd.to_datetime(X['doc_date'], format='%d/%m/%Y')
         except ValueError as e:
             print(e)
         return X
