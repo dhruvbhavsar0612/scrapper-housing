@@ -1,4 +1,6 @@
 import psycopg2 as pg
+import pandas as pd
+from sqlalchemy import create_engine
 
 # configuring the database as created in SQL shell
 db_config={
@@ -10,11 +12,10 @@ db_config={
 
 conn = pg.connect(**db_config)
 
-# creating cursor object - helpful for interacting with database
-cursor = conn.cursor()
+engine = create_engine(f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['dbname']}")
 
-create_table_sql = """
-    CREATE TABLE IF NOT EXISTS tbl_main (
-        
-    );
-"""
+df = pd.read_csv('../cleaned.csv',index_col=[0])
+table_name = 'tbl_andheri_housing'
+df.to_sql(table_name,engine,if_exists='append',index=False)
+
+conn.close()
