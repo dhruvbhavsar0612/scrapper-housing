@@ -7,12 +7,12 @@ from selenium.webdriver.support.select import Select
 import Extracter.constants as const
 # from selenium.webdriver.support.wait import WebDriverWait
 
-# importing google translator api
-from googletrans import Translator
-
 # table extraction imports
 from bs4 import BeautifulSoup
 import pandas as pd
+
+from custom_transformers import NanDropper, ColDropper, ReplaceNames, DateFormat, FloatInt
+from sklearn.pipeline import Pipeline
 
 class InputFields(webdriver.Chrome):
 
@@ -79,6 +79,15 @@ class InputFields(webdriver.Chrome):
 
     def save_table(self, name='data'):
         table = self.find_element(By.ID,'tableparty')
+        
+        # INITIALIZING data cleaning pipeline
+        data_cleaning_pipeline = Pipeline([
+            ('nan_dropper', NanDropper()),  # Drop rows with NaN values
+            ('col_dropper', ColDropper()),  # Drop a specific column
+            ('replace_names', ReplaceNames()),  # Replace column names
+            ('date_format', DateFormat()),  # Format date column
+            ('float_int', FloatInt()),  # Convert float columns to int
+        ])
 
         # using beautiful to parse the html table, helps extracting the data easily
         soup = BeautifulSoup(table.get_attribute('outerHTML'),"html.parser")
@@ -88,7 +97,7 @@ class InputFields(webdriver.Chrome):
         for th in soup.find_all('th'):
             table_headers.append(th.text)
 
-        table_headers.append('link')
+        table_headers.append('List No. 2')
         table_rows=[]
         for row in soup.find_all('tr'):
             columns= row.find_all('td')
@@ -103,5 +112,10 @@ class InputFields(webdriver.Chrome):
             table_rows.append(output_data)
         
         df = pd.DataFrame(table_rows,columns=table_headers)
-        df.to_csv(name+'.csv')
-        return df
+
+        try:
+            cleaned_df = data_cleaning_pipeline.fit_transform(df)
+        except Exception as e:
+            print(f"Pipeline error: {str(e)}")
+
+        cleaned_df.to_csv('cleaned.csv',index=False)
