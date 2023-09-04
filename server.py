@@ -82,7 +82,6 @@ def get_data_by_doc_no(doc_no):
         return str(e)
     
 # function to fetch data from database based on doc_date of type date containing specific year
-
 def get_data_by_doc_date(year):
     '''
     input-
@@ -109,11 +108,10 @@ def fetch_data_by_doc_no_endpoint():
     doc_no = request.args.get('search')
     if not doc_no:
         return jsonify({'error': 'Please provide a Document No.'}), 400
-    
     data = get_data_by_doc_no(doc_no)
     return jsonify(data)
 
-@app.route("/year/<string:year>", methods=['GET'])
+@app.route("/<string:year>", methods=['GET'])
 def fetch_data_by_year_endpoint(year):
     data = get_data_by_doc_date(year)
     return jsonify(data)

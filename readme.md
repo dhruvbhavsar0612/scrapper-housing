@@ -2,6 +2,7 @@
 
 Implemented an automated scrapping tool for the website 'https://pay2igr.igrmaharashtra.gov.in/eDisplay/propertydetails'
 
+
 To use the scrapper, 
 ``` bash 
 python run.py
@@ -41,10 +42,15 @@ Steps:
 4. Copy the link and paste in API testing tool (Ex. POSTMAN API)
 5. Follow example search strings as below
 
+_These are just the examples of API endpoints that can be created. SQL queries can be used to search with the database to a good extent_
+
+_These are the basic examples implemented to demonstrate the working ot api endpoints with postgres table_
+
+
 **Example Request**:
 - Request a specific `year` data
 ```bash
-localhost/year/2023
+localhost/2023
 ```
 - Request address using partial text search
 ```bash
@@ -52,10 +58,9 @@ localhost/address?search=mumbai
 ```
 - Request name using partial text search
 ```bash
-localhost/name?search=mumbai
+localhost/name?search=advocate
 ```
 - Request name using partial text search
 ```bash
-localhost/doc_no?search=mumbai
+localhost/doc_no?search=2449
 ```
-
