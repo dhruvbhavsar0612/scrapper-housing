@@ -1,6 +1,6 @@
 ## Scrapper for igrmaharashtra.gov.in website
 
-- Implemented an automated scrapping tool for the website 'https://pay2igr.igrmaharashtra.gov.in/eDisplay/propertydetails'
+Implemented an automated scrapping tool for the website 'https://pay2igr.igrmaharashtra.gov.in/eDisplay/propertydetails'
 
 To use the scrapper, 
 ``` bash 
@@ -23,3 +23,39 @@ This process also implements data cleaning pipeline with a batchsize of 50 rows/
 Subsequently, also adds the data to the POSTGRES table active on the local server.
 
 ## API Endpoints 
+
+### Retrieve Scraped Data
+
+- **Endpoint**: `/column_name`
+- **Method**: GET
+- **Description**: Retrieve all scraped data from the database. 
+- **Returns**: all records in JSON 
+
+Steps: 
+1. Go to Server Folder
+2. Run command 
+   ```
+   python server.py
+   ```
+3. Wait for development server to start.
+4. Copy the link and paste in API testing tool (Ex. POSTMAN API)
+5. Follow example search strings as below
+
+**Example Request**:
+- Request a specific `year` data
+```bash
+localhost/year/2023
+```
+- Request address using partial text search
+```bash
+localhost/address?search=mumbai
+```
+- Request name using partial text search
+```bash
+localhost/name?search=mumbai
+```
+- Request name using partial text search
+```bash
+localhost/doc_no?search=mumbai
+```
+
