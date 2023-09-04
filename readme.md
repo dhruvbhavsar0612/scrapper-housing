@@ -107,3 +107,24 @@ No real use of BaseEstimator in this case, helpful for imputing estimated values
 6. Defined POSTGRES_DTYPES constant in Constants/constants.py and used it to define datatypes of database
 7. Done for now, all inputs added
 
+# Conclusion
+
+This package demonstrates my abilities to scraping a website and clean the data in transition so that it is ready to be stored in the database. 
+
+Most of my learnings while doing this project includes: 
+   1. BS4 makes inputing structured data scraping easier.
+   2. Automating every step of data ingestion can be challenging.
+   3. Was weak using SQL queries but, with this I have learnt the capabilities of SQL
+   4. There is always a scope of improvement.
+
+## Plan for Furthur Iterations
+
+I was suggested to use Docker Image to input data in PostGres. I am unfamilier with the use cases of docker. So will be exploring docker now, to ensure that the ETL flow is able to meet industry standards.
+
+The captcha can be automated using OCR to convert image to text
+
+For now, extension can only be enabled by webdriver, but user need to manually translate page using the extension and scroll
+
+_Using JS injection in webpages may help with scrolling and libraries like autogui in python, we can direct the mouse cursor the translate the page for itself_
+
+Will keep on exploring for furthur possibilities in automation of scrapping.
