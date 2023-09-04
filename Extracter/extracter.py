@@ -11,7 +11,7 @@ import Extracter.constants as const
 from bs4 import BeautifulSoup
 import pandas as pd
 
-from custom_transformers import NanDropper, ColDropper, ReplaceNames, DateFormat, FloatInt
+from custom_transformers import NanDropper, ColDropper, ReplaceNames, DateFormat, FloatInt, NameSeparator, HistoryColumns, RemoveAnomalies
 from sklearn.pipeline import Pipeline
 
 class InputFields(webdriver.Chrome):
@@ -86,7 +86,10 @@ class InputFields(webdriver.Chrome):
             ('col_dropper', ColDropper()),  # Drop a specific column
             ('replace_names', ReplaceNames()),  # Replace column names
             ('date_format', DateFormat()),  # Format date column
-            ('float_int', FloatInt()),  # Convert float columns to int
+            ('float_int', FloatInt()), # Convert float values to int
+            ("name_sep", NameSeparator()), #separate latest buyers from the data 
+            ("drop_redundancy", HistoryColumns()), # add older columns as history of buyers and sellers
+            ("remove_anomalies", RemoveAnomalies())
         ])
 
         # using beautiful to parse the html table, helps extracting the data easily

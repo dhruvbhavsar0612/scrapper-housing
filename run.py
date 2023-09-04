@@ -22,4 +22,4 @@ def extract_pages(count):
             bot.next_page()
             i=i+1
 
-extract_pages(3)
+extract_pages(1)

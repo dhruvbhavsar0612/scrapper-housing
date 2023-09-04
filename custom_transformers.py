@@ -1,6 +1,35 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 import pandas as pd
+import numpy as np
+from constants import TYPE_MAPPING, VALID_TYPES
 
+def split_names(row):
+    try:
+        import re
+        import string
+        # Split the row based on the pattern '\d+\)'
+        names = re.split(r'\d+\)', row)
+        # Remove leading and trailing spaces from each name
+        names = [name.strip() for name in names if name.strip()]
+        
+        name = names[0].strip(string.whitespace + string.punctuation)
+        return name
+    except IndexError as e:
+        return np.nan
+    
+def split_info(row):
+    try:
+        import re
+        import string
+        # Split the row based on the pattern '\d+\)'
+        names = re.split(r'\d+\)', row)
+        # Remove leading and trailing spaces from each name
+        names = [name.strip() for name in names if name.strip()]
+        
+        name = names[0].strip(string.whitespace + string.punctuation + 'Other Information:')
+        return name
+    except IndexError as e:
+        return np.nan
 class NanDropper(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         return self
@@ -51,3 +80,33 @@ class FloatInt(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         return X.astype({col: 'int32' for col in X.columns if X[col].dtype == 'float64'})
+    
+class NameSeparator(BaseEstimator, TransformerMixin):
+    def fit(self,X,y=None):
+        return self
+    
+    def transform(self,X):
+        X['Latest Buyer Name'] = X['Buyer Name'].apply(split_names)
+        X['Latest Seller Name'] = X['Seller Name'].apply(split_names)
+        X['Other Information Stripped'] = X['Other information'].apply(split_info)
+        return X
+
+class HistoryColumns(BaseEstimator, TransformerMixin):
+    def fit(self,X,y=None):
+        return self
+    
+    def transform(self, X):
+        X = X.rename(columns={'Buyer Name': 'buyer_history', 'Seller Name': 'seller_history'})
+        return X
+
+class RemoveAnomalies(BaseEstimator, TransformerMixin):
+    def fit(self,X,y=None):
+        return self
+    
+    def transform(self, X):
+        
+        X['doc_type'] = X['doc_type'].str.lower()
+        X['doc_type'] = X['doc_type'].replace(TYPE_MAPPING)
+
+        X = X[X['doc_type'].isin(VALID_TYPES)]
+        return X
