@@ -1,14 +1,19 @@
 from flask import Flask, request, jsonify
 import psycopg2
-from constants import DB_PARAMS
+from Constants.constants import DB_PARAMS
 
 # init flask app
 app = Flask(__name__)
 
 
-# to perform partial text search using SQL queries
 # Function to fetch data from the database based on partial text search
 def get_data_by_name(search_text):
+    '''
+    input-
+        search_text(string): search text for querying into database table
+    returns-
+        data(JSON): entire record from database as a json object
+    '''
     try:
         conn = psycopg2.connect(**DB_PARAMS)
         cursor = conn.cursor()
@@ -29,6 +34,12 @@ def get_data_by_name(search_text):
 
 # function to get data using partial text search on address present in other_info
 def get_data_by_address(search_text):
+    '''
+    input-
+        search_text(string): search text for querying into database table
+    returns-
+        data(JSON): entire record from database as a json object
+    '''
     try:
         conn = psycopg2.connect(**DB_PARAMS)
         cursor = conn.cursor()
@@ -50,6 +61,12 @@ def get_data_by_address(search_text):
 
 # function to fetch data from database based on doc_no
 def get_data_by_doc_no(doc_no):
+    '''
+    input-
+        doc_no(int): query doc_no to select from database table
+    returns-
+        data(JSON): entire record from database as a json object
+    '''
     try:
         conn = psycopg2.connect(**DB_PARAMS)
         cursor = conn.cursor()
@@ -67,6 +84,12 @@ def get_data_by_doc_no(doc_no):
 # function to fetch data from database based on doc_date of type date containing specific year
 
 def get_data_by_doc_date(year):
+    '''
+    input-
+        year(string): search year for querying into database table
+    returns-
+        data(JSON): entire record from database as a json object
+    '''
     try:
         conn = psycopg2.connect(**DB_PARAMS)
         cursor = conn.cursor()

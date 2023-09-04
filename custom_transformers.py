@@ -1,9 +1,15 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 import pandas as pd
 import numpy as np
-from constants import TYPE_MAPPING, VALID_TYPES
+from Constants.constants import TYPE_MAPPING, VALID_TYPES
 
 def split_names(row):
+    '''
+    input-
+        row(str): row from the table
+    output-
+        name(str): name of the buyer or seller
+    '''
     try:
         import re
         import string
@@ -18,6 +24,12 @@ def split_names(row):
         return np.nan
     
 def split_info(row):
+    '''
+    input-
+        row(str): row from the table
+    output-
+        name(str): name of the buyer or seller
+    '''
     try:
         import re
         import string
@@ -30,12 +42,6 @@ def split_info(row):
         return name
     except IndexError as e:
         return np.nan
-
-
-
-
-
-
 
 
 # CLASSES for specific task pipelines

@@ -2,7 +2,7 @@ import psycopg2 as pg
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy import types, MetaData,Table, Column, PrimaryKeyConstraint, UniqueConstraint
-from constants import POSTGRES_DTYPES
+from Constants.constants import POSTGRES_DTYPES
 
 # configuring the database as created in SQL shell
 class inputTableToPostgres():
@@ -30,7 +30,3 @@ class inputTableToPostgres():
         
         # add constraints to the table when adding for the first time
         conn.close()
-        # if count == 0:
-        #     with engine.connect() as con:
-        #         con.execute(f"ALTER TABLE tbl_andheri_housing ADD PRIMARY KEY (sr_no)")
-        #         con.execute(f"ALTER TABLE tbl_andheri_housing ADD UNIQUE (doc_no)")
