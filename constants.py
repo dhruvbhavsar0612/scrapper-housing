@@ -21,4 +21,24 @@ VALID_TYPES = [
     'general agreement',
     'bill of sale',
 ]
+from sqlalchemy import types
+POSTGRES_DTYPES = {
+    'sr_no': types.INTEGER,
+    'doc_no': types.INTEGER,
+    'doc_type': types.TEXT,
+    'doc_date': types.DATE,
+    'latest_buyer_name': types.TEXT,
+    'latest_seller_name': types.TEXT,
+    'other_info': types.TEXT,
+    'list_no_2': types.TEXT,
+    'buyer_history':types.TEXT,
+    'seller_history':types.TEXT,
+}
 
+DB_PARAMS = {
+    'user':'postgres',
+    'password':'admin',
+    'host':'localhost',
+    'port':'5433',
+    'database':'postgres'
+}

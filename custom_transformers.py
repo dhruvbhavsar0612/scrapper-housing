@@ -30,6 +30,16 @@ def split_info(row):
         return name
     except IndexError as e:
         return np.nan
+
+
+
+
+
+
+
+
+# CLASSES for specific task pipelines
+
 class NanDropper(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         return self
@@ -86,9 +96,9 @@ class NameSeparator(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self,X):
-        X['Latest Buyer Name'] = X['Buyer Name'].apply(split_names)
-        X['Latest Seller Name'] = X['Seller Name'].apply(split_names)
-        X['Other Information Stripped'] = X['Other information'].apply(split_info)
+        X['latest_buyer_name'] = X['buyer_name'].apply(split_names)
+        X['latest_seller_name'] = X['seller_name'].apply(split_names)
+        X['other_info'] = X['other_info'].apply(split_info)
         return X
 
 class HistoryColumns(BaseEstimator, TransformerMixin):
@@ -96,7 +106,7 @@ class HistoryColumns(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self, X):
-        X = X.rename(columns={'Buyer Name': 'buyer_history', 'Seller Name': 'seller_history'})
+        X = X.rename(columns={'buyer_name': 'buyer_history', 'seller_name': 'seller_history'})
         return X
 
 class RemoveAnomalies(BaseEstimator, TransformerMixin):
@@ -104,7 +114,6 @@ class RemoveAnomalies(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self, X):
-        
         X['doc_type'] = X['doc_type'].str.lower()
         X['doc_type'] = X['doc_type'].replace(TYPE_MAPPING)
 
