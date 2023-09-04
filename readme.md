@@ -2,12 +2,19 @@
 
 Implemented an automated scrapping tool for the website 'https://pay2igr.igrmaharashtra.gov.in/eDisplay/propertydetails'
 
+NOTE : This script may not follow the _industry standards_, but I am willing to learn and in no time, will grasp all that is required for the furthur processes.
 
-To use the scrapper, 
+Navigate to root directory and
+
+Install required libraries,
+```bash
+pip install -r requirements.txt
+```
+
+Use the scrapper, (execute the 'run.py' file)
 ``` bash 
 python run.py
 ```
-(execute the 'run.py' file)
 
 Steps to follow: 
 1. As site opens, let the script enter details until doc year = 2023
@@ -64,3 +71,39 @@ localhost/name?search=advocate
 ```bash
 localhost/doc_no?search=2449
 ```
+
+## Data Cleaning Pipeline Walkthrough
+
+**Libraries used**: pandas, sklearn.base, numpy
+
+**Loc**: custom_transformers.py
+
+**Steps**
+1. Dropped any of Nan values
+2. Dropped undesired column list no. 2 ( already scraped link in another)
+3. Renamed columns to database conventions separated with an underscore (ex. buyer_name)
+4. Changed date dtypes from string object to datetime object
+5. Changed float dtypes to int dtypes
+6. Separated the latest buyers and sellers from buyer and seller list columns, created new columns with latest_buyer_name and latest_seller_name
+7. Renamed old buyer and seller columns to buyer_history and seller_history
+8. Removed anomalies from doc_type column
+
+All these steps have been performed using sklearn.pipeline and sklearn.base libraries using Pipeline, TransformerMixin and BaseEstimator class. 
+
+No real use of BaseEstimator in this case, helpful for imputing estimated values for numerical data
+
+## Inputs in database
+
+**Libraries** : pandas, sqlalchemy, psycopg2
+
+**Loc**: Table/table.py
+
+**Steps**
+1. Connect to database using DB_PARAMS constants
+2. Create sqlalchemy engine and entering database
+3. Read cleaned_0.csv to pandas
+4. Used to_sql method of postgres with sqlalchemy engine to input values in database
+5. If table exists, options selected is to append values, we the inputs can keep coming from webdriver
+6. Defined POSTGRES_DTYPES constant in Constants/constants.py and used it to define datatypes of database
+7. Done for now, all inputs added
+
