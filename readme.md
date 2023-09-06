@@ -103,7 +103,7 @@ No real use of BaseEstimator in this case, helpful for imputing estimated values
 **Steps**
 1. Connect to database using DB_PARAMS constants
 2. Create sqlalchemy engine and entering database
-3. Read cleaned_0.csv to pandas
+3. Read df from the save_table funtion *by value*
 4. Used to_sql method of postgres with sqlalchemy engine to input values in database
 5. If table exists, options selected is to append values, we the inputs can keep coming from webdriver
 6. Defined POSTGRES_DTYPES constant in Constants/constants.py and used it to define datatypes of database
