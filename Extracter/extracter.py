@@ -143,7 +143,7 @@ class InputFields(webdriver.Chrome):
             passes the created dataframe into Pipeline object
             saves cleaned_numbered.csv
         '''
-
+        from TableNew.table import inputTableToPostgres
 
         table = self.find_element(By.ID,'tableparty')
         
@@ -155,19 +155,20 @@ class InputFields(webdriver.Chrome):
             ('date_format', DateFormat()),  # Format date column
             ('float_int', FloatInt()), # Convert float values to int
             ("name_sep", NameSeparator()), #separate latest buyers from the data 
-            ("drop_redundancy", HistoryColumns()), # add older columns as history of buyers and sellers
-            ("remove_anomalies", RemoveAnomalies())
+            ("add_history_columns", HistoryColumns()), # add older columns as history of buyers and sellers
+            ("remove_anomalies", RemoveAnomalies()) 
         ])
 
         # using beautiful to parse the html table, helps extracting the data easily
         soup = BeautifulSoup(table.get_attribute('outerHTML'),"html.parser")
-
+        print('soup initialized')
         # initialize a list of headers 
         table_headers=[]
         for th in soup.find_all('th'):
             table_headers.append(th.text)
-
+        print('Headers denoted')
         table_headers.append('List No. 2')
+        
         table_rows=[]
         for row in soup.find_all('tr'):
             columns= row.find_all('td')
@@ -182,19 +183,24 @@ class InputFields(webdriver.Chrome):
             table_rows.append(output_data)
         
         df = pd.DataFrame(table_rows,columns=table_headers)
+        print('data frame created')
 
         # handling any error in the pipeline
         try:
             cleaned_df = data_cleaning_pipeline.fit_transform(df)
+            print('cleaning pipeline successful')
         except Exception as e:
             print(f"Pipeline error: {str(e)}")
 
-        cleaned_df.to_csv(f'cleaned_{count}.csv',index=False)
+        # initializing the input table object for database inputs
+        input_table= inputTableToPostgres()
+        input_table.input_table(df=cleaned_df)
     
     def next_page(self):
         '''
         function : clicks on the next page button of the website
         '''
+        print('moving on to the next page')
         next_page = self.find_element(By.CSS_SELECTOR, 'a[data-dt-idx="8"]')
         next_page.click()    
         time.sleep(20)        

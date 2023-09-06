@@ -1,7 +1,7 @@
 from Extracter.extracter import InputFields
 import pandas as pd
 import time
-from Table.table import inputTableToPostgres
+from TableNew.table import inputTableToPostgres
 
 # all the methods called one by one for extracting the data
 def extract_pages(count, year, district, taluka, village , doc_year, rows):
@@ -22,10 +22,9 @@ def extract_pages(count, year, district, taluka, village , doc_year, rows):
         bot.submit()
         bot.select_rows(rows=rows)
         i=0 
+        # using while loop to extract the data for the number of pages specified
         while i<count:
             bot.save_table(count=i)
-            input_table= inputTableToPostgres()
-            input_table.input_table(count=i)
             bot.next_page()
             i=i+1
 
