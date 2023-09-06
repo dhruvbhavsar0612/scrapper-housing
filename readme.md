@@ -2,6 +2,8 @@
 
 Implemented an automated scrapping tool for the website 'https://pay2igr.igrmaharashtra.gov.in/eDisplay/propertydetails'
 
+WalkThrough Video : https://youtu.be/sFuWeqmPp_A
+
 NOTE : This script may not follow the _industry standards_, but I am willing to learn and in no time, will grasp all that is required for the furthur processes.
 
 Navigate to root directory and
