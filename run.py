@@ -20,7 +20,7 @@ def extract_pages(count, year, district, taluka, village , doc_year, rows):
         bot.select_village(name=village)
         bot.type_doc_year(year=year)
         bot.submit()
-        bot.select_rows(rows=rows)
+        bot.select_rows(sleep_time=30,rows=rows)
         i=0 
         # using while loop to extract the data for the number of pages specified
         while i<count:

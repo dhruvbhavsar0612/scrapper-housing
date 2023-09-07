@@ -117,7 +117,7 @@ class InputFields(webdriver.Chrome):
         select_element = self.find_element(By.ID, 'submit')
         select_element.click()
 
-    def select_rows(self, rows='50'):
+    def select_rows(self, rows='50', sleep_time=20):
         '''
         input-
             rows(string:number): number of rows to display in webp table
@@ -128,7 +128,7 @@ class InputFields(webdriver.Chrome):
         select.select_by_value(rows)
 
         # wait for extension to translate the data
-        time.sleep(25)
+        time.sleep(sleep_time)
 
     def save_table(self,count=1):
         '''
@@ -169,8 +169,9 @@ class InputFields(webdriver.Chrome):
         print('Headers denoted')
         table_headers.append('List No. 2')
         
-        table_rows=[]
-        for row in soup.find_all('tr'):
+        for row in soup.find_all('tr')[1:]:
+            table_rows=[]
+
             columns= row.find_all('td')
             output_data=[]
 
@@ -182,19 +183,19 @@ class InputFields(webdriver.Chrome):
                 
             table_rows.append(output_data)
         
-        df = pd.DataFrame(table_rows,columns=table_headers)
-        print('data frame created')
+            df = pd.DataFrame(table_rows,columns=table_headers)
+            print('data frame created')
 
-        # handling any error in the pipeline
-        try:
-            cleaned_df = data_cleaning_pipeline.fit_transform(df)
-            print('cleaning pipeline successful')
-        except Exception as e:
-            print(f"Pipeline error: {str(e)}")
+            # handling any error in the pipeline
+            try:
+                cleaned_df = data_cleaning_pipeline.fit_transform(df)
+                print('cleaning pipeline successful')
+            except Exception as e:
+                print(f"Pipeline error: {str(e)}")
 
-        # initializing the input table object for database inputs
-        input_table= inputTableToPostgres()
-        input_table.input_table(df=cleaned_df)
+            # initializing the input table object for database inputs
+            input_table= inputTableToPostgres()
+            input_table.input_table(df=cleaned_df)
     
     def next_page(self):
         '''
