@@ -9,3 +9,5 @@ scikit-learn
 tensorflow
 keras
 pytz
+prophet
+statsmodels
