@@ -1,5 +1,6 @@
 from Extracter.extracter import InputFields
-import pandas
+import pandas as pd
+import time
 
 # all the methods called one by one for extracting the data
 
@@ -12,6 +13,5 @@ with InputFields() as bot:
     bot.type_doc_year(year="2023")
     bot.submit()
     bot.select_rows(rows='50')
-    dataframe = bot.save_table(name='data_with_link')
-
-
+    df = bot.save_table(name='data_with_link_2')
+    bot.clean_table(df=df, name='data_with_link_cleaned')
