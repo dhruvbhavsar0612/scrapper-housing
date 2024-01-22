@@ -30,4 +30,4 @@ def extract_pages(count, year, district, taluka, village , doc_year, rows):
 
 # enter the number of pages required to be extracted
 # here the number of pages is 1
-extract_pages(count=1, year='2023', district='मुंबई उपनगर', taluka='अंधेरी', village='बांद्रा', doc_year='2023' ,rows='50')
+    extract_pages(count=1, year='2023', district='मुंबई उपनगर', taluka='अंधेरी', village='बांद्रा', doc_year='2023' ,rows='50')
