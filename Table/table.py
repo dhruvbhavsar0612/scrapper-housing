@@ -1,4 +1,25 @@
 import psycopg2 as pg
+<<<<<<< HEAD
+
+# configuring the database as created in SQL shell
+db_config={
+    'dbname':'housing-data',
+    'user':'postgres',
+    'password':'admin',
+    'host':'localhost'
+}
+
+conn = pg.connect(**db_config)
+
+# creating cursor object - helpful for interacting with database
+cursor = conn.cursor()
+
+create_table_sql = """
+    CREATE TABLE IF NOT EXISTS tbl_main (
+        
+    );
+"""
+=======
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy import types, MetaData,Table, Column, PrimaryKeyConstraint, UniqueConstraint
@@ -30,3 +51,4 @@ class inputTableToPostgres():
         
         # add constraints to the table when adding for the first time
         conn.close()
+>>>>>>> bdc53be12ff0768043ffdab7dbb740668f72183c
