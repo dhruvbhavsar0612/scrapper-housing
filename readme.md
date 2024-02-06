@@ -70,7 +70,7 @@ localhost/address?search=mumbai
 localhost/name?search=advocate
 ```
 - Request name using partial text search
-```bash
+```url
 localhost/doc_no?search=2449
 ```
 
